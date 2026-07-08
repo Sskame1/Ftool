@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:17
+    container_name: db_ftool
+    restart: always
+    shm_size: 128mb
+
+    environment:
+      POSTGRES_USER: FTOOLUSER
+      POSTGRES_PASSWORD: FTOOLPASSWORD
+      POSTGRES_DB: db_ftool
+
+    ports:
+      - "5432:5432"
+    
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 9900:8080
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+
+    depends_on:
+      - db
+
+volumes:
+  postgres_data
